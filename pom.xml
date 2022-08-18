@@ -24,23 +24,32 @@
   <parent>
     <groupId>org.codehaus.mojo</groupId>
     <artifactId>mojo-parent</artifactId>
-    <version>67</version>
+    <version>70</version>
   </parent>
 
   <artifactId>flatten-maven-plugin</artifactId>
+  <version>1.3.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+
   <name>Maven Flatten Plugin</name>
-  <version>1.2.8-SNAPSHOT</version>
-  <description>Plugin to generate flattened POM (reduced and resolved information required for consumers of maven repositories) and to use (install, sign, deploy) it instead of original pom.xml.</description>
+
+  <description>
+    Plugin to generate flattened POM (reduced and resolved information required for consumers of maven repositories)
+    and to use (install, sign, deploy) it instead of original pom.xml.
+  </description>
+
+  <url>https://www.mojohaus.org/flatten-maven-plugin/</url>
+
   <inceptionYear>2014</inceptionYear>
 
-  <prerequisites>
-    <maven>${mavenVersion}</maven>
-  </prerequisites>
-  <properties>
-    <mavenVersion>3.2.5</mavenVersion>
-    <project.build.outputTimestamp>2021-03-01T20:31:11Z</project.build.outputTimestamp>
-  </properties>
+  <licenses>
+    <license>
+      <name>Apache Software Licenese</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <comments />
+    </license>
+  </licenses>
+
   <developers>
     <developer>
       <id>hohwille</id>
@@ -68,86 +77,112 @@
       </roles>
     </developer>
     <developer>
-      <id>cboehme</id>
-      <name>Christoph Böhme</name>
+      <id>sjaranowski</id>
+      <name>Slawomir Jaranowski</name>
+      <email>sjaranowski@apache.org</email>
+      <timezone>Europe/Warsaw</timezone>
       <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mguillet</id>
-      <name>Michel Guillet</name>
-      <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>mariuszs</id>
-      <name>Mariusz Smykuła</name>
-      <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>sleicht</id>
-      <name>Stephan Leicht Vogt</name>
-      <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>erwint</id>
-      <name>Erwin Tratar</name>
-      <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>gdelafosse</id>
-      <name>Guillaume Delafosse</name>
-      <roles>
-        <role>contributor</role>
-      </roles>
-    </developer>
-    <developer>
-      <id>flabodotes</id>
-      <name>Flabo</name>
-      <roles>
-        <role>contributor</role>
+        <role>developer</role>
       </roles>
     </developer>
   </developers>
 
+  <contributors>
+    <contributor>
+      <name>Christoph Böhme</name>
+    </contributor>
+    <contributor>
+      <name>Michel Guillet</name>
+    </contributor>
+    <contributor>
+      <name>Mariusz Smykuła</name>
+    </contributor>
+    <contributor>
+      <name>Stephan Leicht Vogt</name>
+    </contributor>
+    <contributor>
+      <name>Erwin Tratar</name>
+    </contributor>
+    <contributor>
+      <name>Guillaume Delafosse</name>
+    </contributor>
+    <contributor>
+      <name>Flabo</name>
+    </contributor>
+  </contributors>
+
+  <prerequisites>
+    <maven>${mavenVersion}</maven>
+  </prerequisites>
+
+  <scm>
+    <connection>scm:git:https://github.com/mojohaus/flatten-maven-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mojohaus/flatten-maven-plugin.git</developerConnection>
+    <url>https://github.com/mojohaus/flatten-maven-plugin/tree/master</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <properties>
+    <mavenVersion>3.2.5</mavenVersion>
+    <project.build.outputTimestamp>2022-08-16T21:49:15Z</project.build.outputTimestamp>
+  </properties>
+
+  <!-- override versions of some transitive dependencies -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.11.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
+    <!-- plugin tools -->
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-model</artifactId>
-      <version>${mavenVersion}</version>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-model-builder</artifactId>
-      <version>${mavenVersion}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-dependency-tree</artifactId>
-      <version>2.2</version>
-    </dependency>
+
+    <!-- Maven Core -->
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model-builder</artifactId>
+      <version>${mavenVersion}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- other -->
+    <dependency>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-dependency-tree</artifactId>
+      <version>3.1.1</version>
     </dependency>
     <dependency>
       <groupId>org.codehaus.plexus</groupId>
@@ -159,6 +194,8 @@
       <artifactId>maven-artifact-transfer</artifactId>
       <version>0.13.1</version>
     </dependency>
+
+    <!-- testing -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -173,8 +210,8 @@
     <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
-      <scope>test</scope>
       <version>3.3.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -182,44 +219,35 @@
       <version>${mavenVersion}</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.apache.maven.plugin-tools</groupId>
-      <artifactId>maven-plugin-annotations</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
-  
+
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-invoker-plugin</artifactId>
-          <version>3.3.0</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <configuration>
-          <goalPrefix>flatten</goalPrefix>
-        </configuration>
+        <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
     </plugins>
   </build>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links combine.self="override">
+            <link>https://junit.org/junit4/javadoc/latest</link>
+            <link>https://maven.apache.org/ref/${mavenVersion}/apidocs/</link>
+          </links>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <profiles>
     <profile>
       <id>run-its</id>
-      <activation>
-        <property>
-          <name>skipTests</name>
-          <value>!true</value>
-        </property>
-      </activation>
       <build>
         <plugins>
           <plugin>
@@ -246,7 +274,6 @@
                 <settingsFile>${project.build.directory}/it/interpolated-settings.xml</settingsFile>
               </properties>
               <goals>
-                <goal>clean</goal>
                 <goal>${project.groupId}:${project.artifactId}:${project.version}:flatten -Drevision=1.2.3.4</goal>
               </goals>
               <projectsDirectory>src/it/projects</projectsDirectory>
@@ -254,10 +281,10 @@
               <preBuildHookScript>setup</preBuildHookScript>
             </configuration>
           </plugin>
+
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>mrm-maven-plugin</artifactId>
-            <version>1.4.1</version>
             <executions>
               <execution>
                 <goals>
@@ -272,6 +299,9 @@
                 <mockRepo>
                   <source>src/it/mrm/repository</source>
                 </mockRepo>
+                <localRepo>
+                  <source>${project.build.directory}/local-repo</source>
+                </localRepo>
                 <proxyRepo />
               </repositories>
             </configuration>
@@ -281,46 +311,4 @@
     </profile>
   </profiles>
 
-  <reporting>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <links combine.self="override">
-            <link>http://junit.org/junit4/javadoc/latest</link>
-            <link>http://maven.apache.org/ref/${mavenVersion}/apidocs/</link>
-          </links>
-        </configuration>
-      </plugin>
-    </plugins>
-  </reporting>
-
-  <licenses>
-    <license>
-      <name>Apache Software Licenese</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <comments />
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:https://github.com/mojohaus/flatten-maven-plugin.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/mojohaus/flatten-maven-plugin.git</developerConnection>
-    <url>https://github.com/mojohaus/flatten-maven-plugin</url>
-    <tag>HEAD</tag>
-  </scm>
-  <issueManagement>
-    <system>github</system>
-    <url>https://github.com/mojohaus/flatten-maven-plugin/issues</url>
-  </issueManagement>
-  <ciManagement>
-    <system>travis</system>
-    <url>https://travis-ci.org/mojohaus/flatten-maven-plugin</url>
-  </ciManagement>
-  <distributionManagement>
-    <site>
-      <id>github</id>
-      <url>scm:git:ssh://git@github.com/mojohaus/flatten-maven-plugin.git</url>
-    </site>
-  </distributionManagement>
 </project>
